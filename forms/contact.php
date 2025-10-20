@@ -1,41 +1,52 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = 'contact@example.com';
+// Composer autoload
+require __DIR__ . '/../vendor/autoload.php';
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['name'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject = $_POST['subject'];
+    $receiving_email_address = "basillal1010@gmail.com"; // <-- YOUR receiving email
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  /*
-  $contact->smtp = array(
-    'host' => 'example.com',
-    'username' => 'example',
-    'password' => 'pass',
-    'port' => '587'
-  );
-  */
+    $name    = isset($_POST["name"]) ? strip_tags(trim($_POST["name"])) : '';
+    $email   = isset($_POST["email"]) ? filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL) : '';
+    $subject = isset($_POST["subject"]) ? strip_tags(trim($_POST["subject"])) : 'Contact Form Message';
+    $message = isset($_POST["message"]) ? trim($_POST["message"]) : '';
 
-  $contact->add_message( $_POST['name'], 'From');
-  $contact->add_message( $_POST['email'], 'Email');
-  $contact->add_message( $_POST['message'], 'Message', 10);
+    if (empty($name) || empty($email) || empty($message)) {
+        echo "Please fill all required fields.";
+        exit;
+    }
 
-  echo $contact->send();
+    try {
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'basillal1010@gmail.com';    // <-- Your Gmail address
+        $mail->Password   = 'mfzb izse cxrt svcv';           // <-- Gmail App Password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+        $mail->setFrom('22mcaa12@kristujayanti.com', 'Website Contact');
+        $mail->addAddress($receiving_email_address);
+        $mail->addReplyTo($email, $name);
+
+        $mail->Subject = $subject;
+        $mail->Body    = "Name: $name\nEmail: $email\n\nMessage:\n$message";
+        $mail->AltBody = $mail->Body;
+
+        if ($mail->send()) {
+            echo "OK";
+        }
+
+    } catch (Exception $e) {
+        echo "Failed to send message: " . $mail->ErrorInfo;
+    }
+
+} else {
+    echo "Invalid request.";
+}
 ?>
