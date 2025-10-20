@@ -495,7 +495,7 @@
 
         </div>
 
-        <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="300">
+<form id="contact-form" method="POST" action="/api/contact" class="php-email-form">
           <div class="row gy-4">
 
             <div class="col-md-6">
@@ -573,6 +573,44 @@
   <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 
+  <script>
+    document.getElementById("contact-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const data = Object.fromEntries(new FormData(form).entries());
+    
+      const loading = form.querySelector('.loading');
+      const errorMsg = form.querySelector('.error-message');
+      const sentMsg = form.querySelector('.sent-message');
+    
+      loading.style.display = 'block';
+      errorMsg.style.display = 'none';
+      sentMsg.style.display = 'none';
+    
+      try {
+        const res = await fetch(form.action, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+    
+        loading.style.display = 'none';
+        if (result.ok) {
+          sentMsg.style.display = 'block';
+          form.reset();
+        } else {
+          errorMsg.style.display = 'block';
+          errorMsg.textContent = result.error || "Something went wrong!";
+        }
+      } catch (err) {
+        loading.style.display = 'none';
+        errorMsg.style.display = 'block';
+        errorMsg.textContent = "Failed to send message.";
+      }
+    });
+    </script>
+    
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
