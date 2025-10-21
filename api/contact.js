@@ -1,9 +1,16 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("contact-form");
-  const statusDiv = document.getElementById("form-status");
+  const loading = form.querySelector(".loading");
+  const errorMsg = form.querySelector(".error-message");
+  const sentMsg = form.querySelector(".sent-message");
 
   form.addEventListener("submit", async function (e) {
-    e.preventDefault(); // Prevent page reload
+    e.preventDefault();
+
+    // Hide messages, show loading
+    loading.style.display = "block";
+    errorMsg.style.display = "none";
+    sentMsg.style.display = "none";
 
     // Gather form data
     const data = {
@@ -13,9 +20,6 @@ document.addEventListener("DOMContentLoaded", function () {
       message: form.message.value,
     };
 
-    // Show sending status
-    statusDiv.textContent = "Sending...";
-
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -24,14 +28,19 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       const result = await response.json();
+      loading.style.display = "none";
+
       if (response.ok) {
-        statusDiv.textContent = "Message sent successfully!";
+        sentMsg.style.display = "block";
         form.reset();
       } else {
-        statusDiv.textContent = result.error || "Failed to send message.";
+        errorMsg.textContent = result.error || "Failed to send message.";
+        errorMsg.style.display = "block";
       }
     } catch (err) {
-      statusDiv.textContent = "Network error. Please try again.";
+      loading.style.display = "none";
+      errorMsg.textContent = "Network error. Please try again.";
+      errorMsg.style.display = "block";
     }
   });
 });
