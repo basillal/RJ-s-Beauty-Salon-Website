@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const imageModal = document.getElementById('imageModal');
     const expandedImg = document.getElementById('expandedImg');
     const closeImageModalBtn = document.getElementById('closeImageModalBtn');
-    
+
     document.querySelectorAll('.offer-card img').forEach(img => {
         img.style.cursor = 'pointer';
         img.addEventListener('click', () => {
