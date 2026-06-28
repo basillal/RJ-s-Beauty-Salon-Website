@@ -119,7 +119,32 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === modal) {
             closeModal();
         }
+        if (typeof imageModal !== 'undefined' && e.target === imageModal) {
+            imageModal.classList.remove('show');
+            document.body.style.overflow = '';
+        }
     });
+
+    // --- Image Modal Logic for Offers ---
+    const imageModal = document.getElementById('imageModal');
+    const expandedImg = document.getElementById('expandedImg');
+    const closeImageModalBtn = document.getElementById('closeImageModalBtn');
+    
+    document.querySelectorAll('.offer-card img').forEach(img => {
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', () => {
+            expandedImg.src = img.src;
+            imageModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    if (closeImageModalBtn) {
+        closeImageModalBtn.addEventListener('click', () => {
+            imageModal.classList.remove('show');
+            document.body.style.overflow = '';
+        });
+    }
 
     // --- Particles.js Initialization ---
     if (document.getElementById('particles-js')) {

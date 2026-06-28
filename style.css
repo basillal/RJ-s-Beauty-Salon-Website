@@ -328,7 +328,7 @@ section {
     font-family: var(--font-heading);
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--clr-light);
+    color: var(--clr-primary);
     letter-spacing: 1px;
     display: flex;
     align-items: center;
@@ -357,7 +357,7 @@ section {
 }
 
 .nav-links a {
-    color: var(--clr-light);
+    color: var(--clr-dark);
     font-weight: 500;
     font-size: 0.95rem;
     position: relative;
@@ -397,7 +397,7 @@ section {
 .mobile-menu-icon {
     display: none;
     font-size: 1.5rem;
-    color: var(--clr-light);
+    color: var(--clr-primary);
     cursor: pointer;
 }
 
@@ -409,42 +409,181 @@ section {
 .hero {
     height: 100vh;
     min-height: 600px;
-    background-image: url('assets/brushes.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); /* Simpler, elegant hero coloring */
     position: relative;
     display: flex;
     align-items: center;
 }
 
 .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
+    display: none;
+}
+
+.hero-content-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, rgba(12, 74, 96, 0.9), rgba(12, 74, 96, 0.4));
-    z-index: 1;
+    gap: 2rem;
 }
 
 .hero-content {
-    position: relative;
-    z-index: 2;
+    flex: 1;
     max-width: 600px;
     animation: float 6s ease-in-out infinite;
 }
 
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transform: rotate(3deg);
+    transition: transform 0.5s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-image:hover img {
+    transform: rotate(0deg) scale(1.02);
+}
+
+.hero-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--clr-accent);
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    backdrop-filter: blur(4px);
+}
+
+.hero-blob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(183,110,121,0.15) 0%, rgba(255,255,255,0) 70%);
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+.floating-badge {
+    position: absolute;
+    bottom: 20px;
+    right: 20px; /* Kept inside the image to prevent alignment cut-off */
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    padding: 12px 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 10;
+    max-width: max-content;
+}
+
+.floating-badge i {
+    color: #e5b34a; /* Star color */
+    font-size: 1.5rem;
+}
+
+.floating-badge div {
+    display: flex;
+    flex-direction: column;
+}
+
+.floating-badge strong {
+    font-size: 1.1rem;
+    color: var(--clr-primary);
+    line-height: 1.2;
+}
+
+.floating-badge span {
+    font-size: 0.8rem;
+    color: var(--clr-text);
+}
+
+@media (max-width: 900px) {
+    .hero {
+        height: auto;
+        padding-top: 100px;
+        padding-bottom: 60px;
+    }
+    .hero-content-wrapper {
+        flex-direction: column;
+        text-align: center;
+        margin-top: 20px;
+    }
+    .hero-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .hero-image {
+        margin-top: 3rem;
+    }
+    .hero-image img {
+        max-height: 350px;
+        object-fit: cover;
+        transform: rotate(0deg);
+    }
+    .floating-badge {
+        bottom: 10px;
+        right: 10px;
+        padding: 8px 15px;
+    }
+    .floating-badge strong {
+        font-size: 0.95rem;
+    }
+    .floating-badge span {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-content h1 {
+        font-size: 2.5rem !important;
+    }
+    .hero-content p {
+        font-size: 1rem !important;
+    }
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    .hero-actions .btn {
+        width: 100%;
+    }
+}
+
 .hero-content h1 {
     font-size: 4rem;
-    color: var(--clr-light);
+    color: var(--clr-primary);
     margin-bottom: 1.5rem;
     line-height: 1.1;
 }
 
 .hero-content p {
     font-size: 1.2rem;
-    color: var(--clr-champagne);
+    color: var(--clr-text);
     margin-bottom: 2.5rem;
 }
 
@@ -921,6 +1060,101 @@ section {
     font-weight: 400;
 }
 
+
+/* Offers Section */
+.offers {
+    background: var(--clr-bg);
+    color: var(--clr-text);
+    position: relative;
+    overflow: hidden;
+    padding: 6rem 0;
+}
+
+.offers::before {
+    display: none;
+}
+
+.offers .container {
+    position: relative;
+    z-index: 1;
+}
+
+.offers .section-header h2 {
+    color: var(--clr-primary);
+}
+
+.offers .section-header p {
+    color: var(--clr-text);
+}
+
+.offers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 2rem;
+}
+
+.offer-card {
+    background: var(--clr-light);
+    border-radius: var(--radius-lg);
+    padding: 0;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.offer-card::after {
+    display: none;
+}
+
+.offer-card img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.offer-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+.offer-card:hover img {
+    transform: scale(1.05);
+}
+
+.offer-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.offer-card:hover .offer-overlay {
+    opacity: 1;
+}
+
+.offer-overlay i {
+    color: #fff;
+    font-size: 3rem;
+    transform: scale(0.5);
+    transition: transform 0.3s ease;
+}
+
+.offer-card:hover .offer-overlay i {
+    transform: scale(1);
+}
 
 /* Gallery Section */
 .gallery {
